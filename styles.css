@@ -111,3 +111,18 @@ html{scroll-padding-top:100px}
 .js-motion .animated-title.is-visible .word:hover { transform:translateY(0); transition-delay:0ms; }
 .animated-title .word .letter { position:relative; transform-origin:center bottom; }
 .animated-title .word .letter:hover { transform:scale(1.2); z-index:2; }
+
+/* Ajustes pontuais — 14/11: alinhamento e suavização da interação por letra */
+.intro .intro-footer p { text-align: right; }
+.animated-title .word .letter {
+  transition: transform .72s cubic-bezier(.22,1,.36,1);
+}
+.animated-title .word .letter:hover {
+  transform: scale(1.2);
+  transition-duration: .48s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animated-title .word .letter, .animated-title .word .letter:hover {
+    transition: none !important; transform: none !important;
+  }
+}
