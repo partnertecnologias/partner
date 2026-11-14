@@ -177,3 +177,6 @@ html{scroll-padding-top:100px}
   .intro .intro-footer { margin-top: 36px; }
   .intro .intro-footer p { text-align: center; }
 }
+
+/* Destaque da chamada institucional */
+.intro .green-highlight { color: #9CE13B; }
