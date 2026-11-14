@@ -396,3 +396,10 @@ html{scroll-padding-top:100px}
 
 /* Icones SVG personalizados nos controles do carrossel */
 #showcase-prev img,#showcase-pause img,#showcase-next img{display:block;width:15px;height:15px;object-fit:contain;pointer-events:none}
+
+/* Controles do carrossel sem bordas circulares */
+.showcase-buttons button,.showcase-buttons button:hover,.showcase-buttons button:focus-visible{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;}
+
+/* Centraliza os tres controles do carrossel na largura da tela. */
+.showcase-controls{justify-content:center!important;}
+.showcase-buttons{justify-content:center;align-items:center;}
