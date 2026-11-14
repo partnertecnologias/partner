@@ -30,3 +30,8 @@
 .hero-bottom{justify-content:flex-end}
 .hero h1{margin-bottom:36px}
 @media(max-width:550px){.hero h1{margin-bottom:30px}}
+
+/* Ajuste solicitado: menu maior, com tipografia mais leve */
+.header .nav a{font-family:'Montserrat',Arial,sans-serif;font-size:16px;font-weight:400;letter-spacing:-.015em}
+.header .nav{gap:38px}
+@media(max-width:850px){.header .nav a{font-size:18px;font-weight:400}}
