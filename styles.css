@@ -99,3 +99,15 @@ html{scroll-padding-top:100px}
 .js-motion .animated-title.is-visible .word:hover{transform:scale(1.085);transition-delay:0ms}
 @media(max-width:850px){.intro .intro-grid{max-width:100%}.intro .intro-footer{margin-top:36px}}
 @media(prefers-reduced-motion:reduce){.animated-title .word,.animated-title .word .letter,.js-motion .animated-title .word{transition:none!important;transform:none!important;opacity:1!important}}
+
+/* Revisão: composição Sobre nós e interação exclusivamente por letra */
+@media (min-width: 851px) {
+  .intro .intro-grid { max-width:none; margin:0; }
+  .intro .intro-grid h2 { max-width: 1050px; text-align:left; }
+  .intro .intro-footer { max-width:none; margin:65px 0 0; display:flex; justify-content:flex-end; }
+  .intro .intro-footer p { max-width:540px; margin:0; text-align:left; }
+}
+.animated-title .word:hover,
+.js-motion .animated-title.is-visible .word:hover { transform:translateY(0); transition-delay:0ms; }
+.animated-title .word .letter { position:relative; transform-origin:center bottom; }
+.animated-title .word .letter:hover { transform:scale(1.2); z-index:2; }
