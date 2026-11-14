@@ -126,3 +126,10 @@ html{scroll-padding-top:100px}
     transition: none !important; transform: none !important;
   }
 }
+
+/* Correção solicitada: alinhar o título da seção Sobre à direita,
+   sem mover o bloco ou alterar o alinhamento do parágrafo. */
+.intro .intro-grid h2 { text-align: right; }
+@media (min-width: 851px) {
+  .intro .intro-grid h2 { text-align: right; }
+}
