@@ -35,3 +35,15 @@
 .header .nav a{font-family:'Montserrat',Arial,sans-serif;font-size:16px;font-weight:400;letter-spacing:-.015em}
 .header .nav{gap:38px}
 @media(max-width:850px){.header .nav a{font-size:18px;font-weight:400}}
+
+/* Partner: navegação fixa com vidro fosco e identidade atualizada */
+@font-face{font-family:'Montserrat';src:url('./fonts/Montserrat-Light.ttf') format('truetype');font-style:normal;font-weight:300;font-display:swap}
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(12,18,12,.16);-webkit-backdrop-filter:blur(22px) saturate(115%);backdrop-filter:blur(22px) saturate(115%);border-bottom:1px solid rgba(233,249,220,.10)}
+.header .nav a{font-family:'Montserrat',Arial,sans-serif;font-size:16px;font-weight:300;color:#E9F9DC}
+.header-cta{display:inline-flex;align-items:center;justify-content:center;background:#9CE13B;color:#E9F9DC;font-family:'Montserrat',Arial,sans-serif;font-size:15px;font-weight:300;border-radius:999px;padding:15px 25px;min-height:48px}
+.header-cta span{display:none}
+.hero h1{color:#E9F9DC}
+.hero h1 em{color:#9CE13B}
+html{scroll-padding-top:100px}
+@media(max-width:850px){.header{background:rgba(12,18,12,.30)}.header .nav.open{background:rgba(27,27,26,.92);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px)}.header .nav a{font-weight:300;color:#E9F9DC}}
+@media(max-width:550px){.header-cta{font-size:12px;padding:12px 15px;min-height:42px}}
