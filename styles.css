@@ -54,3 +54,22 @@ html{scroll-padding-top:100px}
 
 /* Cor do texto do botão do cabeçalho */
 .header-cta,.header-cta:visited,.header-cta:hover,.header-cta:focus-visible{color:#1B1B1A!important}
+
+/* Revisão: botões e logo adaptativo por seção */
+.header-cta{font-family:'Montserrat',Arial,sans-serif;font-weight:400;font-size:16px}
+.hero .actions .btn-lime{font-family:'Montserrat',Arial,sans-serif;font-weight:400;font-size:18px;justify-content:center;gap:0}
+.hero .actions .btn-lime span{display:none!important}
+.header .brand{color:#E9F9DC;transition:color .28s ease}
+.header .brand .mark i:nth-child(2){background:#E9F9DC;transition:background .28s ease}
+.header.on-light .brand{color:#1B1B1A}
+.header.on-light .brand .mark i:nth-child(2){background:#1B1B1A}
+.header.on-light .nav a{color:#1B1B1A}
+.header.on-light .menu-toggle{color:#1B1B1A}
+.header .nav a,.header .menu-toggle{transition:color .28s ease}
+/* Ao receber as versões originais, use .brand-logo e .brand-logo-dark */
+.brand-logo,.brand-logo-dark{display:none;height:38px;width:auto;max-width:210px;object-fit:contain}
+.header.has-original-logo .brand .mark,.header.has-original-logo .brand>span:last-child{display:none}
+.header.has-original-logo .brand-logo{display:block}
+.header.has-original-logo.on-light .brand-logo{display:none}
+.header.has-original-logo.on-light .brand-logo-dark{display:block}
+@media(max-width:550px){.hero .actions .btn-lime{font-size:16px}.header-cta{font-size:14px}}
