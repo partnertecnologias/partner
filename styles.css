@@ -73,3 +73,13 @@ html{scroll-padding-top:100px}
 .header.has-original-logo.on-light .brand-logo{display:none}
 .header.has-original-logo.on-light .brand-logo-dark{display:block}
 @media(max-width:550px){.hero .actions .btn-lime{font-size:16px}.header-cta{font-size:14px}}
+
+/* Logotipos originais da Partner — versões clara e escura */
+.header .brand,.footer .brand{display:inline-flex;align-items:center;flex-shrink:0}
+.header .brand .brand-logo,.footer .brand .brand-logo{display:block;width:164px;height:auto;max-width:100%;object-fit:contain}
+.header .brand .brand-logo-dark{display:none}
+.header.on-light .brand .brand-logo-light{display:none}
+.header.on-light .brand .brand-logo-dark{display:block}
+.footer .brand .brand-logo-light{display:none}
+.footer .brand .brand-logo-dark{display:block}
+@media(max-width:550px){.header .brand .brand-logo,.footer .brand .brand-logo{width:138px}}
