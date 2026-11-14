@@ -323,3 +323,76 @@ html{scroll-padding-top:100px}
 /* A cópia FLIP mantém tipografia e geometria estáveis até a troca final. */
 .timeline-flying-title{box-sizing:border-box;white-space:nowrap;backface-visibility:hidden;transform:translateZ(0);}
 .partner-timeline .timeline-detail-title{visibility:visible;}
+
+/* O titulo real é transportado: não mostrar duplicata no card. */
+.partner-timeline .timeline-detail-title{visibility:hidden!important}
+.partner-timeline .timeline-name-placeholder{pointer-events:none}
+.partner-timeline .timeline-inner>.timeline-name{opacity:1!important;filter:none!important;transform:none!important}
+
+/* Após interagir, a linha do tempo volta ao estado final, sem reexecutar o reveal inicial. */
+.partner-timeline.timeline-initial-complete .timeline-line {
+  animation: none !important; transform: scaleX(1) !important;
+}
+.partner-timeline.timeline-initial-complete .timeline-dot {
+  animation: none !important; transform: scale(1) !important;
+}
+.partner-timeline.timeline-initial-complete .timeline-steps .timeline-name {
+  animation: none !important; opacity: 1 !important;
+  transform: none;
+}
+
+/* Estado estável após a primeira entrada e durante todo o retorno. */
+.partner-timeline.timeline-initial-complete .timeline-steps .timeline-name{
+ animation:none!important;opacity:1!important;transform:none!important;
+}
+.partner-timeline.timeline-initial-complete .timeline-dot{
+ animation:none!important;transform:scale(1)!important;
+}
+.partner-timeline.timeline-initial-complete .timeline-line{
+ animation:none!important;transform:scaleX(1)!important;
+}
+.partner-timeline .timeline-inner>.timeline-name{animation:none!important;opacity:1!important;transform:none!important;scale:1!important}
+.partner-timeline.detail-open .timeline-steps,.partner-timeline.detail-open .timeline-line{
+ opacity:0;filter:blur(14px);pointer-events:none;
+}
+
+/* Ajuste compacto da linha do tempo — preserva transições existentes */
+@media(min-width:701px){
+.partner-timeline{padding:80px 0 70px}
+.partner-timeline .timeline-inner{width:min(1080px,86%);min-height:145px}
+.partner-timeline .timeline-name{font-size:clamp(19px,2.05vw,29px)}
+.partner-timeline .timeline-trigger{gap:30px}
+.partner-timeline .timeline-line{top:72px;height:5px}
+.partner-timeline .timeline-dot{width:19px;height:19px}
+.partner-timeline .timeline-detail{min-height:145px}
+.partner-timeline .timeline-detail-title{font-size:clamp(34px,4vw,54px)}
+.partner-timeline .timeline-detail-description{font-size:clamp(15px,1.2vw,18px)}
+}
+@media(max-width:700px){
+.partner-timeline{padding:60px 0}
+.partner-timeline .timeline-inner{width:94%;min-height:140px}
+.partner-timeline .timeline-name{font-size:clamp(10px,2.65vw,15px);min-height:34px}
+.partner-timeline .timeline-trigger{gap:15px}
+.partner-timeline .timeline-line{top:53px;height:4px}
+.partner-timeline .timeline-dot{width:14px;height:14px}
+.partner-timeline .timeline-detail{min-height:140px}
+.partner-timeline .timeline-detail-title{font-size:clamp(30px,8vw,46px)}
+}
+
+/* Indicador que acompanha o mouse, restrito ao trilho da linha do tempo. */
+.partner-timeline .timeline-cursor-dot{
+ position:absolute;z-index:5;width:13px;height:13px;border-radius:50%;
+ background:#9ce13b;border:0;box-sizing:border-box;
+ left:0;top:0;transform:translate(-50%,-50%) scale(.75);
+ opacity:0;pointer-events:none;will-change:left,transform,opacity;
+ transition:opacity .22s ease,transform .24s cubic-bezier(.2,.8,.2,1);
+}
+.partner-timeline .timeline-cursor-dot.is-tracking{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.partner-timeline.detail-open .timeline-cursor-dot{opacity:0!important;transform:translate(-50%,-50%) scale(.6)}
+.partner-timeline .timeline-dot.cursor-pop{animation:timelineCursorPop .38s cubic-bezier(.2,.85,.25,1) both!important}
+@keyframes timelineCursorPop{0%{transform:scale(1)}45%{transform:scale(1.65)}100%{transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.partner-timeline .timeline-dot.cursor-pop{animation:none!important}}
+@media(hover:none),(pointer:coarse){.partner-timeline .timeline-cursor-dot{display:none}}
+
+/* Icones SVG personalizados nos controles do carrossel */
+#showcase-prev img,#showcase-pause img,#showcase-next img{display:block;width:15px;height:15px;object-fit:contain;pointer-events:none}

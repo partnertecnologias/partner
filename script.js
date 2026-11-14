@@ -104,7 +104,7 @@ updateHeaderContrast();
  }
  function move(step){active=(active+step+slides.length)%slides.length;render()}
  prev?.addEventListener('click',()=>move(-1));next?.addEventListener('click',()=>move(1));
- pause?.addEventListener('click',()=>{playing=!playing;pause.textContent=playing?'Ⅱ':'▶';pause.setAttribute('aria-label',playing?'Pausar animação':'Retomar animação')});
+ pause?.addEventListener('click',()=>{playing=!playing;pause.querySelector('img').src=playing?'pause.svg':'play.svg';pause.setAttribute('aria-label',playing?'Pausar animação':'Retomar animação')});
  window.addEventListener('resize',render,{passive:true});render();
  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){setInterval(()=>{if(entered&&playing&&document.visibilityState==='visible')move(1)},4500)}
 })();
@@ -159,85 +159,149 @@ updateHeaderContrast();
 })();
 
 
-// Linha do tempo: títulos se deslocam até o centro; fundo desfoca ao abrir.
+// Linha do tempo: um único título, sem reiniciar o reveal no retorno.
 (()=>{
  const section=document.querySelector('.partner-timeline');if(!section)return;
- const show=()=>section.classList.add('is-visible');
- if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){show();observer.disconnect()}},{threshold:.3});observer.observe(section)}else show();
  const inner=section.querySelector('.timeline-inner');
  const detail=section.querySelector('.timeline-detail');
  const title=detail.querySelector('.timeline-detail-title');
  const description=detail.querySelector('.timeline-detail-description');
  const triggers=[...section.querySelectorAll('.timeline-trigger')];
- const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- let flying=null,active=null,busy=false;
- function moveTitle(from,to,text,done){
-  if(flying){flying.remove();flying=null}
-  // O elemento em movimento usa exatamente a tipografia do destino.
-  // O FLIP interpola apenas posição e escala, sem trocar de fonte no fim.
-  const base=inner.getBoundingClientRect();
-  const a=from.getBoundingClientRect(),b=to.getBoundingClientRect();
-  const style=getComputedStyle(to);
-  const el=document.createElement('span');flying=el;
-  el.className='timeline-flying-title';el.textContent=text;
-  Object.assign(el.style,{
-   left:(b.left-base.left)+'px',top:(b.top-base.top)+'px',
-   width:b.width+'px',height:b.height+'px',
-   fontFamily:style.fontFamily,fontSize:style.fontSize,fontWeight:style.fontWeight,
-   letterSpacing:style.letterSpacing,lineHeight:style.lineHeight,
-   textAlign:'center',display:'flex',alignItems:'center',justifyContent:'center',
-   transformOrigin:'center center',margin:'0',padding:'0'
-  });
-  inner.appendChild(el);
-  const acx=a.left+a.width/2,acy=a.top+a.height/2;
-  const bcx=b.left+b.width/2,bcy=b.top+b.height/2;
-  const start=`translate(${acx-bcx}px,${acy-bcy}px) scale(${a.width/Math.max(b.width,1)},${a.height/Math.max(b.height,1)})`;
-  const anim=el.animate([{transform:start},{transform:'translate(0px,0px) scale(1)'}],
-   {duration:reduced?1:800,easing:'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let active=null, flying=null, anchor=null, busy=false;
+ const finalizeIntro=()=>section.classList.add('timeline-initial-complete');
+ const reveal=()=>{
+  section.classList.add('is-visible');
+  // Só a primeira visita executa o reveal. Antes de qualquer interação,
+  // consolidar os estados finais para evitar saltos em dots e labels.
+  setTimeout(finalizeIntro,reduced?0:2700);
+ };
+ if('IntersectionObserver' in window){
+  const obs=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){reveal();obs.disconnect()}},{threshold:.3});obs.observe(section);
+ }else reveal();
+ const box=()=>inner.getBoundingClientRect();
+ function coords(rect){const b=box();return {left:rect.left-b.left,top:rect.top-b.top,width:rect.width,height:rect.height};}
+ function position(el,rect,fontSize){
+  const r=coords(rect);
+  Object.assign(el.style,{position:'absolute',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',fontSize:fontSize+'px',margin:'0',padding:'0',display:'flex',alignItems:'center',justifyContent:'center',textAlign:'center',whiteSpace:'nowrap',zIndex:'12',opacity:'1',transform:'none',scale:'1',animation:'none',transition:'none',filter:'none',pointerEvents:'none'});
+ }
+ function animateTo(el,targetRect,targetSize,done){
+  const start=el.getBoundingClientRect(),a=coords(start),b=coords(targetRect);
+  const startSize=parseFloat(getComputedStyle(el).fontSize);
+  const anim=el.animate([
+   {left:a.left+'px',top:a.top+'px',width:a.width+'px',height:a.height+'px',fontSize:startSize+'px'},
+   {left:b.left+'px',top:b.top+'px',width:b.width+'px',height:b.height+'px',fontSize:targetSize+'px'}
+  ],{duration:reduced?1:850,easing:'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
   anim.onfinish=()=>{
-   // Mostrar o título real antes de retirar a cópia evita um frame vazio.
-   to.style.opacity='1';
-   el.remove();if(flying===el)flying=null;
-   done();
+   // Aplicar posição final antes de cancelar a animação, evitando 1 frame de salto.
+   position(el,targetRect,targetSize);
+   anim.cancel();done();
   };
  }
  function open(button){
-  if(busy||active)return;busy=true;active=button;
-  title.textContent=button.dataset.title;description.textContent=button.dataset.description;
+  if(busy||active)return;
+  busy=true;active=button;finalizeIntro();
+  const el=button.querySelector('.timeline-name');
+  const sourceRect=el.getBoundingClientRect();
+  const fontSize=parseFloat(getComputedStyle(el).fontSize);
+  title.textContent=button.dataset.title;
+  description.textContent=button.dataset.description;
   detail.hidden=false;
-  title.style.visibility='visible';title.style.opacity='0';
+  anchor=document.createElement('span');anchor.className='timeline-name-placeholder';
+  anchor.style.cssText=`display:block;width:${sourceRect.width}px;height:${sourceRect.height}px;visibility:hidden;flex-shrink:0`;
+  el.before(anchor);
+  flying=el;inner.appendChild(el);
+  position(el,sourceRect,fontSize);el.dataset.homeSize=fontSize;
   button.setAttribute('aria-expanded','true');
-  const source=button.querySelector('.timeline-name');
-  const wasHover=source.getBoundingClientRect();
+  const target=title.getBoundingClientRect();
   section.classList.add('detail-open');
-  // Esconde a origem apenas após capturar sua geometria.
-  source.style.opacity='0';
-  moveTitleFromRect(wasHover,title,button.dataset.title,()=>{
+  animateTo(el,target,parseFloat(getComputedStyle(title).fontSize),()=>{
    section.classList.add('detail-text-visible');busy=false;
   });
  }
- function moveTitleFromRect(rect,to,text,done){
-  // Retângulo estável mesmo depois do fade/desfoque do restante da linha.
-  const placeholder=document.createElement('span');
-  Object.assign(placeholder.style,{position:'fixed',left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px',pointerEvents:'none',visibility:'hidden'});
-  document.body.appendChild(placeholder);
-  moveTitle(placeholder,to,text,()=>{placeholder.remove();done()});
- }
  function close(){
-  if(busy||!active)return;busy=true;
+  if(busy||!active)return;
+  busy=true;
   section.classList.remove('detail-text-visible');
-  const source=active.querySelector('.timeline-name');
-  const destination=source.getBoundingClientRect();
-  const origin=title.getBoundingClientRect();
-  title.style.opacity='0';
-  // A linha reaparece em paralelo; o nome só reaparece após a chegada.
-  section.classList.remove('detail-open');
-  moveTitleFromRect(origin,source,active.dataset.title,()=>{
+  // Não reexibir linha e pontos até o título voltar completamente.
+  const target=anchor.getBoundingClientRect();
+  animateTo(flying,target,Number(flying.dataset.homeSize),()=>{
+   const el=flying;
+   // Mantém o nome invisível no fluxo apenas durante a troca de DOM.
+   el.style.visibility='hidden';
+   anchor.replaceWith(el);
+   el.removeAttribute('style');delete el.dataset.homeSize;
+   anchor=null;flying=null;
    active.setAttribute('aria-expanded','false');active=null;
-   detail.hidden=true;title.style.opacity='0';busy=false;
+   detail.hidden=true;
+   // Um único frame de layout estável, depois fade/blur de volta.
+   requestAnimationFrame(()=>{
+    section.classList.remove('detail-open');
+    busy=false;
+   });
   });
  }
  triggers.forEach(button=>button.addEventListener('click',()=>active===button?close():open(button)));
  detail.querySelector('.timeline-close').addEventListener('click',close);
- document.addEventListener('keydown',event=>{if(event.key==='Escape'&&active)close()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&active)close()});
+})();
+
+// Indicador autônomo: percorre a linha continuamente e segue o mouse quando próximo.
+(()=>{
+ const section=document.querySelector('.partner-timeline');
+ if(!section||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+ const inner=section.querySelector('.timeline-inner');
+ const line=section.querySelector('.timeline-line');
+ const dots=[...section.querySelectorAll('.timeline-dot')];
+ if(!inner||!line||!dots.length)return;
+ const cursor=document.createElement('span');
+ cursor.className='timeline-cursor-dot';cursor.setAttribute('aria-hidden','true');
+ inner.appendChild(cursor);
+ let x=null, direction=1, lastTime=0, pointerX=0, lastPointerTime=-Infinity;
+ let lastHit=-1;
+ const speed=105; // pixels por segundo, movimento constante entre as pontas
+ function pop(dot){
+  dot.classList.remove('cursor-pop');void dot.offsetWidth;dot.classList.add('cursor-pop');
+  dot.addEventListener('animationend',()=>dot.classList.remove('cursor-pop'),{once:true});
+ }
+ document.addEventListener('pointermove',e=>{
+  if(e.pointerType==='touch')return;
+  pointerX=e.clientX;lastPointerTime=performance.now();
+ },{passive:true});
+
+ function tick(time){
+  requestAnimationFrame(tick);
+  const dt=Math.min((time-lastTime)/1000||0,.05);lastTime=time;
+  if(!section.classList.contains('timeline-initial-complete')||section.classList.contains('detail-open')){
+   cursor.classList.remove('is-tracking');lastHit=-1;return;
+  }
+  const track=line.getBoundingClientRect(),parent=inner.getBoundingClientRect();
+  if(!track.width)return;
+  const min=track.left,max=track.right,cy=track.top+track.height/2;
+  if(x===null)x=min;
+  x=Math.max(min,Math.min(max,x));
+  // Qualquer movimento do mouse assume o controle, independentemente da distância vertical.
+  // Após um intervalo sem movimento, o percurso automático recomeça.
+  const mouseControlling=time-lastPointerTime<1600;
+  if(mouseControlling){
+   const target=Math.max(min,Math.min(max,pointerX));
+   const alpha=1-Math.exp(-dt*16);
+   const delta=target-x;
+   x+=delta*alpha;
+   if(Math.abs(delta)>0.5)direction=delta>0?1:-1;
+  }else{
+   x+=direction*speed*dt;
+   if(x>=max){x=max-(x-max);direction=-1}
+   if(x<=min){x=min+(min-x);direction=1}
+  }
+  cursor.style.left=(x-parent.left)+'px';
+  cursor.style.top=(cy-parent.top)+'px';
+  cursor.classList.add('is-tracking');
+  const hit=dots.findIndex(dot=>{
+   const r=dot.getBoundingClientRect();
+   return Math.abs(x-(r.left+r.width/2))<=Math.max(9,r.width*.55);
+  });
+  if(hit!==lastHit){if(hit>=0)pop(dots[hit]);lastHit=hit}
+ }
+ requestAnimationFrame(tick);
 })();
