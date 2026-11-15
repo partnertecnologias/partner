@@ -1,0 +1,77 @@
+
+.service-page{margin:0;background:#f7f8f6;color:#1b1b1a;font-family:Montserrat,Arial,sans-serif}.service-page *{box-sizing:border-box}.service-header{height:94px;padding:0 clamp(22px,5vw,85px);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:10}.service-logo img{display:block;width:138px}.service-nav{display:flex;align-items:center;gap:36px}.service-nav>a,.service-menu-button{font-family:Montserrat,Arial,sans-serif;font-size:16px;font-weight:300;color:#1b1b1a;text-decoration:none}.service-menu-button{background:none;border:0;padding:15px 0;cursor:pointer}.service-dropdown{position:relative}.service-submenu{position:absolute;top:100%;left:-20px;min-width:245px;padding:14px 0;background:rgba(14,20,13,.89);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:17px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility .25s;box-shadow:0 12px 32px rgba(0,0,0,.12)}.service-dropdown:hover .service-submenu,.service-dropdown:focus-within .service-submenu,.service-dropdown.is-open .service-submenu{opacity:1;visibility:visible;transform:translateY(0)}.service-submenu a{display:block;padding:13px 25px;color:#e9f9dc;font:400 14px Montserrat,Arial,sans-serif;text-decoration:none;white-space:nowrap}.service-submenu a:hover,.service-submenu a[aria-current=page]{color:#9ce13b}.service-nav .service-budget{background:#9ce13b;padding:15px 27px;border-radius:35px;font-weight:400}.service-hero{min-height:620px;display:flex;align-items:center;position:relative;overflow:hidden;background:#0b1a0b;color:#e9f9dc;padding:95px clamp(24px,9vw,160px)}.service-hero-inner{position:relative;z-index:1;max-width:850px}.service-eyebrow{font-size:12px;letter-spacing:.17em;font-weight:600;margin:0 0 33px}.service-hero h1{font-family:ClementePDak,Montserrat,Arial,sans-serif;font-size:clamp(48px,7.2vw,110px);line-height:1.05;letter-spacing:-.04em;margin:0 0 30px}.service-lead{font-size:clamp(17px,1.7vw,22px);font-weight:300;line-height:1.65;max-width:640px;margin:0 0 35px}.service-cta{display:inline-block;background:#9ce13b;color:#1b1b1a;border-radius:50px;padding:17px 30px;font-size:15px;text-decoration:none;font-weight:400}.service-orb{position:absolute;right:-12%;top:-15%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(86,204,26,.3),rgba(86,204,26,0) 67%);pointer-events:none}.service-explain{max-width:1220px;margin:auto;padding:125px 28px;display:grid;grid-template-columns:1fr 1fr;gap:85px;align-items:center}.service-explain h2,.service-features h2,.service-last h2{font-family:ClementePDak,Montserrat,Arial,sans-serif;font-size:clamp(38px,4.2vw,66px);line-height:1.1;letter-spacing:-.035em;margin:0}.service-explain>p{font-size:18px;line-height:1.9;font-weight:300}.service-features{background:#eaece8;padding:110px max(28px,calc((100vw - 1164px)/2)) 130px}.service-features h2{text-align:center;margin:0 0 70px}.service-feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.feature{background:#f8f9f7;padding:36px 30px;min-height:240px;border-radius:20px}.feature h3{font-family:ClementePDak,Montserrat,Arial,sans-serif;font-size:26px;margin:0 0 18px}.feature p{font-size:15px;font-weight:300;line-height:1.75;margin:0}.service-last{text-align:center;padding:130px 25px 145px}.service-last h2{max-width:850px;margin:0 auto 25px}.service-last p{max-width:560px;margin:0 auto 32px;line-height:1.75;font-weight:300}.service-footer{display:flex;justify-content:space-between;gap:15px;padding:34px clamp(24px,5vw,85px);background:#0b1a0b;color:#e9f9dc;font-size:13px;font-weight:300}.service-footer a{color:inherit;text-decoration:none;font-weight:600}@media(max-width:750px){.service-header{height:76px}.service-logo img{width:105px}.service-nav{gap:13px}.service-nav>a,.service-menu-button{font-size:12px}.service-nav .service-budget{padding:12px 14px}.service-submenu{left:auto;right:-15px}.service-hero{min-height:550px;padding:75px 25px}.service-explain{grid-template-columns:1fr;gap:10px;padding:85px 25px}.service-features{padding:85px 25px}.service-feature-grid{grid-template-columns:1fr}.feature{min-height:auto}.service-last{padding:95px 25px}.service-footer{flex-direction:column}}
+
+/* Landing Pages: espaço reservado para o vídeo imobiliário externo */
+.service-page:has(.landing-video-frame) .service-header{position:sticky;top:0;z-index:100;background:#f7f8f6}
+.service-page:has(.landing-video-frame) .service-hero{min-height:690px;padding-right:0;isolation:isolate}
+.service-page:has(.landing-video-frame) .service-hero-inner{max-width:56%;z-index:2}
+.service-page:has(.landing-video-frame) .service-hero h1{font-size:clamp(48px,6.1vw,100px)}
+.landing-video-frame{position:absolute;right:-11%;top:50%;transform:translateY(-50%);width:53%;height:min(570px,78%);border-radius:36px;overflow:hidden;background:#162a1a;box-shadow:0 25px 80px rgba(0,0,0,.27)}
+.landing-video-frame video{display:block;width:100%;height:100%;object-fit:cover}
+@media(max-width:750px){.service-page:has(.landing-video-frame) .service-hero{min-height:0;display:block;padding:65px 0 0 25px}.service-page:has(.landing-video-frame) .service-hero-inner{max-width:calc(100% - 25px)}.service-page:has(.landing-video-frame) .service-hero h1{font-size:clamp(46px,11vw,70px)}.landing-video-frame{position:relative;top:auto;right:-12%;transform:none;width:100%;height:330px;margin:45px 0 0 auto;border-radius:25px}}
+
+/* Landing Pages — hero branco e texto sem sobreposição com o vídeo */
+.service-page:has(.landing-video-frame) .service-hero{background:#fff;color:#1b1b1a;min-height:690px;padding-left:clamp(24px,8.5vw,160px);padding-right:0}
+.service-page:has(.landing-video-frame) .service-hero-inner{width:45%;max-width:45%;flex:0 0 45%;z-index:2}
+.service-page:has(.landing-video-frame) .service-hero h1{font-size:clamp(48px,5.5vw,92px);line-height:1.08;letter-spacing:-.04em;white-space:normal;overflow-wrap:normal}
+.service-page:has(.landing-video-frame) .service-lead{max-width:510px;font-size:clamp(17px,1.45vw,21px);color:#353a35}
+.service-page:has(.landing-video-frame) .landing-video-frame{width:46%;right:-5%;height:min(570px,78%);box-shadow:0 25px 70px rgba(0,0,0,.12)}
+@media(max-width:950px) and (min-width:751px){.service-page:has(.landing-video-frame) .service-hero-inner{width:47%;max-width:47%;flex-basis:47%}.service-page:has(.landing-video-frame) .service-hero h1{font-size:clamp(45px,5.3vw,65px)}.service-page:has(.landing-video-frame) .landing-video-frame{width:45%;right:-7%}}
+@media(max-width:750px){.service-page:has(.landing-video-frame) .service-hero{min-height:0;padding:65px 0 0 25px}.service-page:has(.landing-video-frame) .service-hero-inner{width:calc(100% - 25px);max-width:calc(100% - 25px)}.service-page:has(.landing-video-frame) .service-hero h1{font-size:clamp(46px,11vw,70px)}.service-page:has(.landing-video-frame) .landing-video-frame{width:100%;right:-12%;height:330px}}
+
+/* Landing Pages: vídeo inteiro, sem corte interno, e cabeçalho em vidro translúcido. */
+.service-page:has(.landing-video-frame) .service-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(247,248,246,.38);
+  -webkit-backdrop-filter:blur(22px) saturate(145%);
+  backdrop-filter:blur(22px) saturate(145%);
+  border-bottom:0;
+}
+.service-page:has(.landing-video-frame) .landing-video-frame{
+  height:auto;
+  aspect-ratio:16 / 9;
+  background:#101c17;
+}
+.service-page:has(.landing-video-frame) .landing-video-frame video{
+  width:100%;height:100%;object-fit:contain;
+}
+@media(max-width:750px){
+  .service-page:has(.landing-video-frame) .landing-video-frame{height:auto;aspect-ratio:16 / 9;}
+}
+
+/* Landing Pages — cabeçalho com o mesmo desfoque gradual da página inicial. */
+.service-page:has(.landing-video-frame) .service-header{
+ position:fixed;inset:0 0 auto 0;width:100%;height:94px;
+ background:transparent!important;
+ -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+ isolation:isolate;z-index:1000;
+}
+.service-page:has(.landing-video-frame) .service-header::before{
+ content:"";position:absolute;z-index:-1;pointer-events:none;
+ top:0;left:0;right:0;height:calc(100% + 54px);
+ background:linear-gradient(to bottom,rgba(9,14,10,.13) 0%,rgba(9,14,10,.07) 44%,transparent 100%);
+ -webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);
+ -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 32%,rgba(0,0,0,.75) 58%,transparent 100%);
+ mask-image:linear-gradient(to bottom,#000 0%,#000 32%,rgba(0,0,0,.75) 58%,transparent 100%);
+}
+/* Vídeo maior e sem recorte do próprio conteúdo. Apenas a lateral externa é ocultada pela viewport. */
+.service-page:has(.landing-video-frame) .service-hero{min-height:760px;padding-top:145px;padding-bottom:95px;overflow:hidden}
+.service-page:has(.landing-video-frame) .service-hero-inner{width:40%;max-width:40%;flex-basis:40%}
+.service-page:has(.landing-video-frame) .landing-video-frame{
+ width:60vw;max-width:none;right:-9vw;height:auto;aspect-ratio:16/9;
+ border-radius:36px;overflow:hidden;background:#101c17;
+}
+.service-page:has(.landing-video-frame) .landing-video-frame video{width:100%;height:100%;object-fit:contain}
+@media(max-width:950px) and (min-width:751px){
+ .service-page:has(.landing-video-frame) .service-hero-inner{width:40%;max-width:40%;flex-basis:40%}
+ .service-page:has(.landing-video-frame) .landing-video-frame{width:59vw;right:-10vw}
+}
+@media(max-width:750px){
+ .service-page:has(.landing-video-frame) .service-header{height:76px}
+ .service-page:has(.landing-video-frame) .service-hero{min-height:0;padding:130px 0 65px 25px;display:block}
+ .service-page:has(.landing-video-frame) .service-hero-inner{width:calc(100% - 25px);max-width:calc(100% - 25px)}
+ .service-page:has(.landing-video-frame) .landing-video-frame{position:relative;top:auto;right:-5vw;transform:none;width:95vw;height:auto;aspect-ratio:16/9;margin:45px 0 0 auto;border-radius:25px}
+}
+
+/* Landing Pages: desce apenas o video, sem alterar dimensoes ou menu. */
+@media(min-width:751px){.service-page:has(.landing-video-frame) .landing-video-frame{top:calc(50% + 55px)}}

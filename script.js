@@ -305,3 +305,56 @@ updateHeaderContrast();
  }
  requestAnimationFrame(tick);
 })();
+
+/* Mantém o centro do trilho exatamente alinhado ao centro das bolinhas. */
+(()=>{
+ const section=document.querySelector('.partner-timeline');
+ if(!section)return;
+ const inner=section.querySelector('.timeline-inner');
+ const line=section.querySelector('.timeline-line');
+ const dot=section.querySelector('.timeline-step .timeline-dot');
+ if(!inner||!line||!dot)return;
+ const align=()=>{
+  const ir=inner.getBoundingClientRect();
+  const dr=dot.getBoundingClientRect();
+  const lh=line.getBoundingClientRect().height || 2;
+  line.style.top=(dr.top+dr.height/2-ir.top-lh/2)+'px';
+ };
+ window.addEventListener('resize',align,{passive:true});
+ window.addEventListener('load',align,{once:true});
+ requestAnimationFrame(align);
+})();
+
+/* Anima os diferenciais uma única vez ao entrar na área visível. */
+(()=>{const section=document.querySelector('.partner-differentials');if(!section)return;
+const reveal=()=>section.classList.add('differentials-in-view');
+if(!('IntersectionObserver' in window)){reveal();return;}
+const target=section.querySelector('.differentials-grid')||section;
+const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){reveal();observer.disconnect();}},{rootMargin:'-45% 0px -45% 0px',threshold:0});observer.observe(target);
+})();
+
+// Revela o vídeo da seção de contato apenas ao atingir o centro da viewport.
+(()=>{
+ const media=document.querySelector('.partner-contact .partner-contact-media');
+ if(!media)return;
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)){media.classList.add('contact-video-visible');return;}
+ const observer=new IntersectionObserver(entries=>{
+  if(entries.some(entry=>entry.isIntersecting)){media.classList.add('contact-video-visible');observer.disconnect();}
+ },{rootMargin:'-45% 0px -45% 0px',threshold:0});
+ observer.observe(media);
+})();
+
+// Submenu Serviços: hover no desktop, clique e teclado, com fundo desfocado.
+(()=>{
+ const group=document.querySelector('.nav-services');const trigger=group?.querySelector('.nav-services-trigger');const backdrop=document.querySelector('.nav-backdrop');if(!group||!trigger)return;
+ const setOpen=open=>{group.classList.toggle('is-open',open);document.body.classList.toggle('services-open',open);trigger.setAttribute('aria-expanded',String(open));};
+ const desktop=()=>window.matchMedia('(min-width:851px)').matches;
+ group.addEventListener('mouseenter',()=>{if(desktop())setOpen(true)});
+ group.addEventListener('mouseleave',()=>{if(desktop())setOpen(false)});
+ trigger.addEventListener('click',()=>setOpen(!group.classList.contains('is-open')));
+ group.addEventListener('focusout',e=>{if(!group.contains(e.relatedTarget))setOpen(false)});
+ backdrop?.addEventListener('click',()=>setOpen(false));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){setOpen(false);trigger.blur()}});
+ document.addEventListener('pointerdown',e=>{if(!group.contains(e.target)&&!e.target.closest('.menu-toggle'))setOpen(false)});
+ window.addEventListener('resize',()=>setOpen(false));
+})();
