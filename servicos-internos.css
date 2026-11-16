@@ -75,3 +75,59 @@
 
 /* Landing Pages: desce apenas o video, sem alterar dimensoes ou menu. */
 @media(min-width:751px){.service-page:has(.landing-video-frame) .landing-video-frame{top:calc(50% + 55px)}}
+
+/* Landing Pages: rodape sem faixa verde e entrada no centro da viewport. */
+.service-page:has(.landing-video-frame) .service-footer{background:#f7f8f6;color:#1b1b1a;border-top:1px solid rgba(27,27,26,.08)}
+@media(prefers-reduced-motion:no-preference){
+ .landing-reveal-ready{opacity:0;filter:blur(7px);transform:translateY(-36px);transition:opacity .85s ease,filter .85s ease,transform .85s cubic-bezier(.22,1,.36,1)}
+ .landing-reveal-ready.landing-revealed{opacity:1;filter:blur(0);transform:translateY(0)}
+}
+
+/* O vídeo não participa do reveal: preservar posicionamento e evitar recorte/transform. */
+.service-page:has(.landing-video-frame) .landing-video-frame.landing-reveal-ready,
+.service-page:has(.landing-video-frame) .landing-video-frame.landing-revealed{opacity:1;filter:none;transition:none}
+
+/* Entrada do vídeo: anima somente opacidade e desfoque, nunca posição ou escala. */
+@media(prefers-reduced-motion:no-preference){
+ .service-page:has(.landing-video-frame) .landing-video-frame.landing-reveal-ready:not(.landing-revealed){
+  opacity:0;filter:blur(12px);
+  transition:opacity 1.15s ease,filter 1.15s ease;
+ }
+ .service-page:has(.landing-video-frame) .landing-video-frame.landing-reveal-ready.landing-revealed{
+  opacity:1;filter:blur(0);
+  transition:opacity 1.15s ease,filter 1.15s ease;
+ }
+}
+
+/* Correção definitiva: a animação não move o contêiner e o hero comporta o vídeo inteiro. */
+@media(min-width:751px){
+ .service-page:has(.landing-video-frame) .service-hero{min-height:940px;overflow:hidden}
+ .service-page:has(.landing-video-frame) .landing-video-frame{
+  top:calc(50% + 20px);
+  transform:translateY(-50%)!important;
+ }
+}
+@media(prefers-reduced-motion:no-preference){
+ .service-page:has(.landing-video-frame) .landing-video-frame.landing-reveal-ready,
+ .service-page:has(.landing-video-frame) .landing-video-frame.landing-revealed{
+  opacity:1!important;filter:none!important;transition:none!important;
+ }
+ .service-page:has(.landing-video-frame) .landing-video-frame video{
+  opacity:0;filter:blur(10px);
+  transition:opacity 1.15s ease,filter 1.15s ease;
+ }
+ .service-page:has(.landing-video-frame) .landing-video-frame.landing-revealed video{
+  opacity:1;filter:blur(0);
+ }
+}
+
+/* Cardapios Digitais: manter moldura, enquadrar PNG completo sem recorte. */
+.service-page .landing-video-frame img[src="cardapio.png"]{display:block;width:100%;height:100%;object-fit:contain!important;object-position:center center!important;}
+
+/* Cardápio: ajustar somente o conteúdo da imagem, preservando a moldura e a animação. */
+.service-page .landing-video-frame:has(img[src="cardapio.png"]){background:#fff!important;}
+.service-page .landing-video-frame img[src="cardapio.png"]{
+ width:100%;height:100%;object-fit:contain!important;object-position:center!important;
+ transform:translateX(-7%) scale(.86);transform-origin:center center;
+}
+@media(max-width:750px){.service-page .landing-video-frame img[src="cardapio.png"]{transform:translateX(-3%) scale(.93)}}
